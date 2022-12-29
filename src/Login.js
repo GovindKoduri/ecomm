@@ -2,18 +2,70 @@ import React, { useState } from "react";
 import "./Login.css";
 import { Link, useHistory } from "react-router-dom";
 import StorefrontIcon from "@material-ui/icons/Storefront";
+import { useStateValue } from "./StateProvider";
 
+let URL;
 function Login() {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [{token}, dispatch] = useStateValue();
+
+  const tokenDispatchHandler = (token) => {
+    dispatch({
+      type: "LOG_IN",
+      token: token,
+    });
+  };
 
   const signIn = (e) => {
    e.preventDefault();
+   URL =
+     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA1CyuLue5nliA5A4zRMiMQBY9-egunl50";
+     sendRequestToFireBase(URL);
   };
 
   const register = (e) => {
     e.preventDefault();
+    URL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA1CyuLue5nliA5A4zRMiMQBY9-egunl50";
+
+      sendRequestToFireBase(URL);
+    
   };
+
+  const sendRequestToFireBase = (URL) => {
+    fetch(URL, {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log("User logged in Successfully...!!!");
+          res.json().then((data) => {
+            const resToken = data.idToken;
+            console.log("resToken: " + resToken);
+            tokenDispatchHandler(resToken);
+          });
+          
+          history.replace("/");
+        } else {
+          res.json().then((data) => {
+            if(data && data.error && data.error.message) {
+                alert("Authentication Failed:" + data.error.message);
+                history.replace("/login");
+            }
+            
+          });
+        }
+      });
+  }
 
   return (
     <div className="login">

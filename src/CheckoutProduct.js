@@ -1,21 +1,19 @@
+
+import { useDispatch } from 'react-redux';
+import { cartActions } from "./store/cart-slice";
+
 import React from "react";
 import "./CheckoutProduct.css";
-import { useStateValue } from "./StateProvider";
 
 
 function CheckoutProduct({ id, title, image, price, rating }) {
-  
-  const [{basket}, dispatch] = useStateValue();
-  
+  const dispatch = useDispatch();
 
   const removeFromBasket = () => {
-    
-    dispatch({
-      type: "REMOVE_FROM_BASKET",
-      id: id,
-    })
+    console.log("Remove Item from cart clicked !!!")
+    dispatch(cartActions.removeItemFromCart(id));
   };
-
+  
   return (
     <div className="checkoutProduct">
       <img src={image} alt="" className="checkoutProduct__image" />

@@ -1,16 +1,12 @@
+import { Switch, Route } from "react-router-dom";
 
 import "./App.css";
 import Header from "./Header";
 import Home from "./Home";
 import Checkout from "./Checkout";
-import Login from './Login';
-
-import { Switch, Route } from "react-router-dom";
-import { useStateValue } from "./StateProvider";
+import Login from "./Login";
 
 function App() {
-  const [{ isLoggedIn }, dispatch] = useStateValue();
-
   return (
     <div className="App">
       <Switch>
@@ -25,8 +21,7 @@ function App() {
 
         <Route path="/checkout">
           <Header />
-          {isLoggedIn && <Checkout />}
-          {!isLoggedIn && <Login />}
+          <Checkout />
         </Route>
       </Switch>
     </div>

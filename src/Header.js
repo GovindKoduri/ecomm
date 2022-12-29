@@ -1,22 +1,17 @@
 import React from "react";
-import "./Header.css";
-import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import SearchIcon from "@material-ui/icons/Search";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useStateValue } from "./StateProvider";
 
+import "./Header.css";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 
 function Header() {
-    const [{ basket, isLoggedIn }, dispatch] = useStateValue();
-
-    const logoutHandler = () => {
-      dispatch({
-        type: "LOG_OUT",
-        token: null,
-        basket: []
-      });
-
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+ 
+  const logoutHandler = () => {
+      
     }
  
   return (
@@ -35,19 +30,10 @@ function Header() {
 
       <div className="header__nav">
         <Link to="/login" style={{ textDecoration: "none" }}>
-          {!isLoggedIn && (
-            <div className="nav__item">
-              <span className="nav__itemLineOne">Hello Guest</span>
-              <span className="nav__itemLineTwo"> Sign In</span>
-            </div>
-          )}
-
-          {isLoggedIn && (
-            <div className="nav__item">
-              <span className="nav__itemLineOne">Welcome</span>
-              <span className="nav__itemLineTwo"> User</span>
-            </div>
-          )}
+          <div className="nav__item">
+            <span className="nav__itemLineOne">Hello Guest</span>
+            <span className="nav__itemLineTwo"> Sign In</span>
+          </div>
         </Link>
         <div className="nav__item">
           <span className="nav__itemLineOne">Your</span>
@@ -57,7 +43,7 @@ function Header() {
           <div className="nav__itemBasket">
             <ShoppingBasketIcon />
             <span className="nav__itemLineTwo nav__basketCount">
-              {basket.length}
+              {totalQuantity}
             </span>
           </div>
         </Link>

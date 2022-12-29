@@ -8,6 +8,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     npm install @material-ui/core
     npm i @material-ui/icons
     npm i react-router-dom@5.2.0
+# Redux deps
+    npm i @reduxjs/toolkit
+    npm i react-redux
 
 ## Available Scripts
 

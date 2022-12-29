@@ -1,27 +1,22 @@
 import React from "react";
-import "./Product.css";
-import { useStateValue } from "./StateProvider";
+import { useDispatch } from "react-redux";
 
+import { cartActions } from "./store/cart-slice";
+import "./Product.css";
 
 function Product({ id, title, image, price, rating }) {
-    const [state, dispatch] = useStateValue();
-
-
+  const dispatch = useDispatch();
+  
   const addToBasket = () => {
-    console.log("addToBasket clicked...!");
-
-    dispatch({
-        type: "ADD_TO_BASKET",
-        item: {
-            id: id,
-            title: title,
-            image: image,
-            price: price,
-            rating: rating
-        },
-    });
-
-  };
+    console.log("Add to Basket called !!!")
+    dispatch(cartActions.addItemsToCart({ // new style js assignment if both field names are same
+      id,
+      title,
+      image,
+      price,
+      rating
+    }));
+  }
 
   return (
     <div className="product">

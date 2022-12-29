@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import "./Login.css";
 import { Link, useHistory } from "react-router-dom";
 import StorefrontIcon from "@material-ui/icons/Storefront";
-import { useStateValue } from "./StateProvider";
+
+import "./Login.css";
+//import { useStateValue } from "./StateProvider";
 
 let URL;
 function Login() {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [{token}, dispatch] = useStateValue();
+  //const [{token}, dispatch] = useStateValue();
 
   const tokenDispatchHandler = (token) => {
-    dispatch({
-      type: "LOG_IN",
-      token: token,
-    });
+    // dispatch({
+    //   type: "LOG_IN",
+    //   token: token,
+    // });
   };
 
   const signIn = (e) => {

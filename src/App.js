@@ -1,4 +1,5 @@
 import { Switch, Route } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 import "./App.css";
 import Header from "./Header";
@@ -7,6 +8,7 @@ import Checkout from "./Checkout";
 import Login from "./Login";
 
 function App() {
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   return (
     <div className="App">
       <Switch>
@@ -21,7 +23,8 @@ function App() {
 
         <Route path="/checkout">
           <Header />
-          <Checkout />
+          {!isLoggedIn && <Login />}
+          {isLoggedIn && <Checkout />}
         </Route>
       </Switch>
     </div>

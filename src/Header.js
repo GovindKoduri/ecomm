@@ -1,18 +1,24 @@
 import React from "react";
 import StorefrontIcon from "@material-ui/icons/Storefront";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import SearchIcon from "@material-ui/icons/Search";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./Header.css";
-import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import { authActions } from "./store/auth-slice";
 
 function Header() {
+  const dispatch = useDispatch();
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+  console.log("isLoggedIn: " + isLoggedIn);
  
   const logoutHandler = () => {
-      
-    }
+    console.log("User logged out !!!");
+    localStorage.removeItem("id_token");
+    dispatch(authActions.logout());
+  }
  
   return (
     <div className="header">
@@ -30,10 +36,19 @@ function Header() {
 
       <div className="header__nav">
         <Link to="/login" style={{ textDecoration: "none" }}>
-          <div className="nav__item">
-            <span className="nav__itemLineOne">Hello Guest</span>
-            <span className="nav__itemLineTwo"> Sign In</span>
-          </div>
+          {!isLoggedIn && (
+            <div className="nav__item">
+              <span className="nav__itemLineOne">Hello Guest</span>
+              <span className="nav__itemLineTwo"> Sign In</span>
+            </div>
+          )}
+
+          {isLoggedIn && (
+            <div className="nav__item">
+              <span className="nav__itemLineOne">Welcome</span>
+              <span className="nav__itemLineTwo"> User</span>
+            </div>
+          )}
         </Link>
         <div className="nav__item">
           <span className="nav__itemLineOne">Your</span>
@@ -47,12 +62,15 @@ function Header() {
             </span>
           </div>
         </Link>
-
-        <div className="nav__item">
-          <button className="nav__itemLineTwo" onClick={logoutHandler}>
-            Logout
-          </button>
-        </div>
+        {isLoggedIn && (
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <div className="nav__item">
+              <button className="nav__itemLineTwo" onClick={logoutHandler}>
+                Logout
+              </button>
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );

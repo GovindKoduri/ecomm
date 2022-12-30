@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import StorefrontIcon from "@material-ui/icons/Storefront";
+import { useDispatch } from 'react-redux';
+import { authActions } from "./store/auth-slice";
 
 import "./Login.css";
-//import { useStateValue } from "./StateProvider";
+
 
 let URL;
 function Login() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //const [{token}, dispatch] = useStateValue();
+ 
 
   const tokenDispatchHandler = (token) => {
-    // dispatch({
-    //   type: "LOG_IN",
-    //   token: token,
-    // });
+    console.log("User Athenticated !!!")
+    dispatch(authActions.login(token)); 
   };
 
   const signIn = (e) => {
@@ -52,6 +53,7 @@ function Login() {
           res.json().then((data) => {
             const resToken = data.idToken;
             console.log("resToken: " + resToken);
+            localStorage.setItem("id_token", resToken);
             tokenDispatchHandler(resToken);
           });
           

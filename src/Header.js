@@ -42,14 +42,15 @@ function Header() {
               <span className="nav__itemLineTwo"> Sign In</span>
             </div>
           )}
-
-          {isLoggedIn && (
-            <div className="nav__item">
-              <span className="nav__itemLineOne">Welcome</span>
-              <span className="nav__itemLineTwo"> User</span>
-            </div>
-          )}
         </Link>
+
+        {isLoggedIn && (
+          <div className="nav__item">
+            <span className="nav__itemLineOne">Welcome</span>
+            <span className="nav__itemLineTwo"> User</span>
+          </div>
+        )}
+
         <div className="nav__item">
           <span className="nav__itemLineOne">Your</span>
           <span className="nav__itemLineTwo">Shop</span>
